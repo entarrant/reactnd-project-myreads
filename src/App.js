@@ -98,10 +98,12 @@ class BooksApp extends React.Component {
   };
 
   addBookToShelf = (book, newShelf) => {
-    let modifiedShelfState = this.state[newShelf];
-    modifiedShelfState[book.id] = book;
+    if (newShelf !== "none") {
+      let modifiedShelfState = this.state[newShelf];
+      modifiedShelfState[book.id] = book;
+      this.setState({ [newShelf]: modifiedShelfState });
+    }
 
-    this.setState({ [newShelf]: modifiedShelfState });
     BooksAPI.update(book, newShelf);
   };
 }
