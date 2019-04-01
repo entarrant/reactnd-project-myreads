@@ -28,9 +28,18 @@ class BooksApp extends React.Component {
               <BookList
                 title="Currently Reading"
                 books={this.state.currentlyReading}
+                updateBookShelf={this.updateBookShelf}
               />
-              <BookList title="Want To Read" books={this.state.wantToRead} />
-              <BookList title="Read" books={this.state.read} />
+              <BookList
+                title="Want To Read"
+                books={this.state.wantToRead}
+                updateBookShelf={this.updateBookShelf}
+              />
+              <BookList
+                title="Read"
+                books={this.state.read}
+                updateBookShelf={this.updateBookShelf}
+              />
             </div>
           </div>
           <div className="open-search">
@@ -72,6 +81,28 @@ class BooksApp extends React.Component {
         read: read
       });
     });
+  };
+
+  updateBookShelf = (book, newShelf) => {
+    this.removeBookFromShelf(book, book.shelf);
+    this.addBookToShelf(book, newShelf);
+  };
+
+  removeBookFromShelf = (book, oldShelf) => {
+    let modifiedShelfState = this.state[oldShelf];
+    delete modifiedShelfState[book.id];
+
+    this.setState({
+      [oldShelf]: modifiedShelfState
+    });
+  };
+
+  addBookToShelf = (book, newShelf) => {
+    let modifiedShelfState = this.state[newShelf];
+    modifiedShelfState[book.id] = book;
+
+    this.setState({ [newShelf]: modifiedShelfState });
+    BooksAPI.update(book, newShelf);
   };
 }
 

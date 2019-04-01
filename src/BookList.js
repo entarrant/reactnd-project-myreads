@@ -11,7 +11,11 @@ class BookList extends React.Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {Object.keys(books).map(bookId => (
-              <Book key={bookId} book={books[bookId]} />
+              <Book
+                key={bookId}
+                book={books[bookId]}
+                updateBookShelf={this.props.updateBookShelf}
+              />
             ))}
           </ol>
         </div>

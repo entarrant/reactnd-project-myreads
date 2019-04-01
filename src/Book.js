@@ -16,7 +16,7 @@ class Book extends React.Component {
               backgroundImage: `url(${book.imageLinks.thumbnail})`
             }}
           />
-          <ShelfChanger />
+          <ShelfChanger book={book} updateBookShelf={this.props.updateBookShelf}/>
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors}</div>
