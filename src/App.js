@@ -7,9 +7,9 @@ import BookList from "./BookList";
 class BooksApp extends React.Component {
   state = {
     showSearchPage: false,
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
+    currentlyReading: {},
+    wantToRead: {},
+    read: {}
   };
 
   componentDidMount() {
@@ -45,21 +45,23 @@ class BooksApp extends React.Component {
   }
 
   filterBooks = () => {
-    let currentlyReading = [];
-    let wantToRead = [];
-    let read = [];
+    let currentlyReading = {};
+    let wantToRead = {};
+    let read = {};
 
     BooksAPI.getAll().then(books => {
       books.forEach(book => {
         switch (book.shelf) {
           case "currentlyReading":
-            currentlyReading.push(book);
+            currentlyReading[book.id] = book;
             break;
           case "wantToRead":
-            wantToRead.push(book);
+            wantToRead[book.id] = book;
             break;
           case "read":
-            read.push(book);
+            read[book.id] = book;
+            break;
+          default:
             break;
         }
       });
