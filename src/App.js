@@ -90,16 +90,17 @@ class BooksApp extends React.Component {
   };
 
   removeBookFromShelf = (book, oldShelf) => {
-    let modifiedShelfState = this.state[oldShelf];
-    delete modifiedShelfState[book.id];
-
-    this.setState({
-      [oldShelf]: modifiedShelfState
-    });
+    if (oldShelf !== "none" && oldShelf !== undefined) {
+      let modifiedShelfState = this.state[oldShelf];
+      delete modifiedShelfState[book.id];
+      this.setState({
+        [oldShelf]: modifiedShelfState
+      });
+    }
   };
 
   addBookToShelf = (book, newShelf) => {
-    if (newShelf !== "none") {
+    if (newShelf !== "none" && newShelf !== undefined) {
       let modifiedShelfState = this.state[newShelf];
       modifiedShelfState[book.id] = book;
       this.setState({ [newShelf]: modifiedShelfState });
