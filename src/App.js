@@ -3,10 +3,10 @@ import "./App.css";
 
 import * as BooksAPI from "./BooksAPI";
 import BookList from "./BookList";
+import SearchPage from "./SearchPage";
 
 class BooksApp extends React.Component {
   state = {
-    showSearchPage: false,
     currentlyReading: {},
     wantToRead: {},
     read: {}
@@ -19,6 +19,7 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
+        <SearchPage />
         <div className="list-books">
           <div className="list-books-title">
             <h1>MyReads</h1>
@@ -43,7 +44,7 @@ class BooksApp extends React.Component {
             </div>
           </div>
           <div className="open-search">
-            <button onClick={() => this.setState({ showSearchPage: true })}>
+            <button onClick={() => window.console.log("Searching!")}>
               Add a book
             </button>
           </div>

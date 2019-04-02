@@ -1,24 +1,61 @@
-<div className="search-books">
-  <div className="search-books-bar">
-    <button
-      className="close-search"
-      onClick={() => this.setState({ showSearchPage: false })}
-    >
-      Close
-    </button>
-    <div className="search-books-input-wrapper">
-      {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+import React from "react";
 
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-      <input type="text" placeholder="Search by title or author" />
-    </div>
-  </div>
-  <div className="search-books-results">
-    <ol className="books-grid" />
-  </div>
-</div>;
+import * as BooksAPI from "./BooksAPI";
+import Book from "./Book";
+
+class SearchPage extends React.Component {
+  state = {
+    searchValue: "",
+    books: []
+  };
+
+  render() {
+    const { books } = this.state;
+
+    return (
+      <div className="search-books">
+        <div className="search-books-bar">
+          <button
+            className="close-search"
+            onClick={() => window.console.log("Go back!")}
+          >
+            Close
+          </button>
+          <div className="search-books-input-wrapper">
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              onChange={event => this.handleSearchChange(event.target.value)}
+            />
+          </div>
+        </div>
+        <div className="search-books-results">
+          <ol className="books-grid">
+            {Object.keys(books).map(bookId => (
+              <Book
+                key={bookId}
+                book={books[bookId]}
+                updateBookShelf={this.props.updateBookShelf}
+              />
+            ))}
+          </ol>
+        </div>
+      </div>
+    );
+  }
+
+  handleSearchChange = value => {
+    BooksAPI.search(value).then(books => {
+      let newBooks;
+      if (books === undefined || books.error) {
+        newBooks = [];
+      } else {
+        newBooks = books;
+      }
+
+      this.setState({ searchValue: value, books: newBooks });
+    });
+  };
+}
+
+export default SearchPage;
