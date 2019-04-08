@@ -101,6 +101,9 @@ class BooksApp extends React.Component {
 
   addBookToShelf = (book, newShelf) => {
     if (newShelf !== "none" && newShelf !== undefined) {
+      // Update the shelf on the book object
+      book.shelf = newShelf;
+
       let modifiedShelfState = this.state[newShelf];
       modifiedShelfState[book.id] = book;
       this.setState({ [newShelf]: modifiedShelfState });
