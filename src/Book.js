@@ -5,6 +5,7 @@ class Book extends React.Component {
   render() {
     const { book } = this.props;
     const bookImage = book.imageLinks ? book.imageLinks.thumbnail : "";
+    const authors = book.authors ? book.authors.join(", ") : "";
 
     return (
       <div className="book">
@@ -23,7 +24,7 @@ class Book extends React.Component {
           />
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors}</div>
+        <div className="book-authors">{authors}</div>
       </div>
     );
   }
