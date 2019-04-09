@@ -19,7 +19,7 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <SearchPage />
+        <SearchPage shelfForBook={this.shelfForBook} />
         <div className="list-books">
           <div className="list-books-title">
             <h1>MyReads</h1>
@@ -30,16 +30,19 @@ class BooksApp extends React.Component {
                 title="Currently Reading"
                 books={this.state.currentlyReading}
                 updateBookShelf={this.updateBookShelf}
+                shelfForBook={this.shelfForBook}
               />
               <BookList
                 title="Want To Read"
                 books={this.state.wantToRead}
                 updateBookShelf={this.updateBookShelf}
+                shelfForBook={this.shelfForBook}
               />
               <BookList
                 title="Read"
                 books={this.state.read}
                 updateBookShelf={this.updateBookShelf}
+                shelfForBook={this.shelfForBook}
               />
             </div>
           </div>
@@ -82,6 +85,10 @@ class BooksApp extends React.Component {
         read: read
       });
     });
+  };
+
+  shelfForBook = book => {
+    return book.shelf ? book.shelf : "none";
   };
 
   updateBookShelf = (book, newShelf) => {

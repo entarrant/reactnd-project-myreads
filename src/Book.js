@@ -21,6 +21,7 @@ class Book extends React.Component {
           <ShelfChanger
             book={book}
             updateBookShelf={this.props.updateBookShelf}
+            shelfForBook={this.props.shelfForBook}
           />
         </div>
         <div className="book-title">{book.title}</div>

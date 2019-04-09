@@ -2,14 +2,16 @@ import React from "react";
 
 class ShelfChanger extends React.Component {
   state = {
-    shelfValue: this.props.book.shelf
+    shelfValue: this.props.shelfForBook(this.props.book)
   };
 
   render() {
+    const { shelfValue } = this.state;
+
     return (
       <div className="book-shelf-changer">
         <select
-          value={this.state.shelfValue}
+          value={shelfValue}
           onChange={event => this.handleShelfChange(event.target.value)}
         >
           <option value="move" disabled>

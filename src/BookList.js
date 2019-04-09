@@ -15,6 +15,7 @@ class BookList extends React.Component {
                 key={bookId}
                 book={books[bookId]}
                 updateBookShelf={this.props.updateBookShelf}
+                shelfForBook={this.props.shelfForBook}
               />
             ))}
           </ol>
