@@ -1,5 +1,6 @@
-import React from "react";
 import "./App.css";
+import React from "react";
+import { Link, Route } from "react-router-dom";
 
 import * as BooksAPI from "./BooksAPI";
 import BookList from "./BookList";
@@ -19,40 +20,54 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <SearchPage shelfForBook={this.shelfForBook} />
-        <div className="list-books">
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
-          <div className="list-books-content">
-            <div>
-              <BookList
-                title="Currently Reading"
-                books={this.state.currentlyReading}
-                updateBookShelf={this.updateBookShelf}
-                shelfForBook={this.shelfForBook}
-              />
-              <BookList
-                title="Want To Read"
-                books={this.state.wantToRead}
-                updateBookShelf={this.updateBookShelf}
-                shelfForBook={this.shelfForBook}
-              />
-              <BookList
-                title="Read"
-                books={this.state.read}
-                updateBookShelf={this.updateBookShelf}
-                shelfForBook={this.shelfForBook}
-              />
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <SearchPage
+              updateBookShelf={this.updateBookShelf}
+              shelfForBook={this.shelfForBook}
+            />
+          )}
+        />
+
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <div className="list-books-content">
+                <div>
+                  <BookList
+                    title="Currently Reading"
+                    books={this.state.currentlyReading}
+                    updateBookShelf={this.updateBookShelf}
+                    shelfForBook={this.shelfForBook}
+                  />
+                  <BookList
+                    title="Want To Read"
+                    books={this.state.wantToRead}
+                    updateBookShelf={this.updateBookShelf}
+                    shelfForBook={this.shelfForBook}
+                  />
+                  <BookList
+                    title="Read"
+                    books={this.state.read}
+                    updateBookShelf={this.updateBookShelf}
+                    shelfForBook={this.shelfForBook}
+                  />
+                </div>
+              </div>
+
+              <Link to="/search" className="open-search">
+                <button>Search</button>
+              </Link>
             </div>
-          </div>
-          <div className="open-search">
-            <button onClick={() => window.console.log("Searching!")}>
-              Add a book
-            </button>
-          </div>
-        </div>
-        )}
+          )}
+        />
       </div>
     );
   }
