@@ -103,7 +103,17 @@ class BooksApp extends React.Component {
   };
 
   shelfForBook = book => {
-    return book.shelf ? book.shelf : "none";
+    if (book.shelf) {
+      return book.shelf;
+    } else if (this.state.currentlyReading[book.id]) {
+      return "currentlyReading";
+    } else if (this.state.wantToRead[book.id]) {
+      return "wantToRead";
+    } else if (this.state.read[book.id]) {
+      return "read";
+    } else {
+      return "none";
+    }
   };
 
   updateBookShelf = (book, oldShelf, newShelf) => {
