@@ -106,8 +106,8 @@ class BooksApp extends React.Component {
     return book.shelf ? book.shelf : "none";
   };
 
-  updateBookShelf = (book, newShelf) => {
-    this.removeBookFromShelf(book, book.shelf);
+  updateBookShelf = (book, oldShelf, newShelf) => {
+    this.removeBookFromShelf(book, oldShelf);
     this.addBookToShelf(book, newShelf);
   };
 
