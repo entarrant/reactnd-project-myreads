@@ -8,9 +8,11 @@ import SearchPage from "./SearchPage";
 
 class BooksApp extends React.Component {
   state = {
-    currentlyReading: {},
-    wantToRead: {},
-    read: {}
+    shelves: {
+      currentlyReading: {},
+      wantToRead: {},
+      read: {}
+    }
   };
 
   componentDidMount() {
@@ -18,6 +20,7 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    const { shelves } = this.state;
     return (
       <div className="app">
         <Route
@@ -43,19 +46,19 @@ class BooksApp extends React.Component {
                 <div>
                   <BookList
                     title="Currently Reading"
-                    books={this.state.currentlyReading}
+                    books={shelves.currentlyReading}
                     updateBookShelf={this.updateBookShelf}
                     shelfForBook={this.shelfForBook}
                   />
                   <BookList
                     title="Want To Read"
-                    books={this.state.wantToRead}
+                    books={shelves.wantToRead}
                     updateBookShelf={this.updateBookShelf}
                     shelfForBook={this.shelfForBook}
                   />
                   <BookList
                     title="Read"
-                    books={this.state.read}
+                    books={shelves.read}
                     updateBookShelf={this.updateBookShelf}
                     shelfForBook={this.shelfForBook}
                   />
@@ -95,21 +98,24 @@ class BooksApp extends React.Component {
       });
 
       this.setState({
-        currentlyReading: currentlyReading,
-        wantToRead: wantToRead,
-        read: read
+        shelves: {
+          currentlyReading: currentlyReading,
+          wantToRead: wantToRead,
+          read: read
+        }
       });
     });
   };
 
   shelfForBook = book => {
+    const { shelves } = this.state;
     if (book.shelf) {
       return book.shelf;
-    } else if (this.state.currentlyReading[book.id]) {
+    } else if (shelves.currentlyReading[book.id]) {
       return "currentlyReading";
-    } else if (this.state.wantToRead[book.id]) {
+    } else if (shelves.wantToRead[book.id]) {
       return "wantToRead";
-    } else if (this.state.read[book.id]) {
+    } else if (shelves.read[book.id]) {
       return "read";
     } else {
       return "none";
@@ -123,7 +129,7 @@ class BooksApp extends React.Component {
 
   removeBookFromShelf = (book, oldShelf) => {
     if (oldShelf !== "none" && oldShelf !== undefined) {
-      let modifiedShelfState = this.state[oldShelf];
+      let modifiedShelfState = this.state.shelves[oldShelf];
       delete modifiedShelfState[book.id];
       this.setState({
         [oldShelf]: modifiedShelfState
@@ -136,7 +142,7 @@ class BooksApp extends React.Component {
       // Update the shelf on the book object
       book.shelf = newShelf;
 
-      let modifiedShelfState = this.state[newShelf];
+      let modifiedShelfState = this.state.shelves[newShelf];
       modifiedShelfState[book.id] = book;
       this.setState({ [newShelf]: modifiedShelfState });
     }
