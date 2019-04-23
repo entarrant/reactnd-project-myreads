@@ -1,8 +1,17 @@
 import React from "react";
 
 class ShelfChanger extends React.Component {
+  getShelf = () => {
+    const { book, shelvedBooks } = this.props;
+    const shelvedBook = shelvedBooks.filter(
+      currBook => book.id === currBook.id
+    )[0];
+
+    return shelvedBook ? shelvedBook.shelf : "none";
+  };
+
   state = {
-    shelfValue: this.props.shelfForBook(this.props.book)
+    shelfValue: this.getShelf()
   };
 
   render() {
@@ -12,7 +21,9 @@ class ShelfChanger extends React.Component {
       <div className="book-shelf-changer">
         <select
           value={shelfValue}
-          onChange={event => this.handleShelfChange(event.target.value)}
+          onChange={event =>
+            this.handleShelfChange(shelfValue, event.target.value)
+          }
         >
           <option value="move" disabled>
             Move to...
@@ -26,12 +37,9 @@ class ShelfChanger extends React.Component {
     );
   }
 
-  handleShelfChange = newShelf => {
-    this.props.updateBookShelf(
-      this.props.book,
-      this.state.shelfValue,
-      newShelf
-    );
+  handleShelfChange = (oldShelf, newShelf) => {
+    this.setState({ shelfValue: newShelf });
+    this.props.updateBookShelf(this.props.book, oldShelf, newShelf);
   };
 }
 

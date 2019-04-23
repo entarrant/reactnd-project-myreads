@@ -34,7 +34,7 @@ class SearchPage extends React.Component {
                 key={bookId}
                 book={books[bookId]}
                 updateBookShelf={this.props.updateBookShelf}
-                shelfForBook={this.props.shelfForBook}
+                shelvedBooks={this.props.shelvedBooks}
               />
             ))}
           </ol>
