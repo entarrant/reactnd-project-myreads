@@ -27,6 +27,8 @@ class ShelfChanger extends React.Component {
   }
 
   handleShelfChange = newShelf => {
+    this.setState({ shelfValue: newShelf });
+
     this.props.updateBookShelf(
       this.props.book,
       this.state.shelfValue,
