@@ -21,6 +21,7 @@ class BooksApp extends React.Component {
 
   render() {
     const { shelves } = this.state;
+
     return (
       <div className="app">
         <Route
@@ -131,9 +132,12 @@ class BooksApp extends React.Component {
     if (oldShelf !== "none" && oldShelf !== undefined) {
       let modifiedShelfState = this.state.shelves[oldShelf];
       delete modifiedShelfState[book.id];
-      this.setState({
-        [oldShelf]: modifiedShelfState
-      });
+      this.setState(previousState => ({
+        shelves: {
+          ...previousState.shelves,
+          [oldShelf]: modifiedShelfState
+        }
+      }));
     }
   };
 
@@ -144,7 +148,12 @@ class BooksApp extends React.Component {
 
       let modifiedShelfState = this.state.shelves[newShelf];
       modifiedShelfState[book.id] = book;
-      this.setState({ [newShelf]: modifiedShelfState });
+      this.setState(previousState => ({
+        shelves: {
+          ...previousState.shelves,
+          [newShelf]: modifiedShelfState
+        }
+      }));
     }
 
     BooksAPI.update(book, newShelf);
