@@ -8,7 +8,6 @@ import SearchPage from "./SearchPage";
 
 class BooksApp extends React.Component {
   state = {
-    shelvedBooks: [],
     shelves: {
       currentlyReading: {},
       wantToRead: {},
@@ -30,7 +29,7 @@ class BooksApp extends React.Component {
           render={() => (
             <SearchPage
               updateBookShelf={this.updateBookShelf}
-              shelvedBooks={this.state.shelvedBooks}
+              shelfForBook={this.shelfForBook}
             />
           )}
         />
@@ -49,19 +48,19 @@ class BooksApp extends React.Component {
                     title="Currently Reading"
                     books={shelves.currentlyReading}
                     updateBookShelf={this.updateBookShelf}
-                    shelvedBooks={this.state.shelvedBooks}
+                    shelfForBook={this.shelfForBook}
                   />
                   <BookList
                     title="Want To Read"
                     books={shelves.wantToRead}
                     updateBookShelf={this.updateBookShelf}
-                    shelvedBooks={this.state.shelvedBooks}
+                    shelfForBook={this.shelfForBook}
                   />
                   <BookList
                     title="Read"
                     books={shelves.read}
                     updateBookShelf={this.updateBookShelf}
-                    shelvedBooks={this.state.shelvedBooks}
+                    shelfForBook={this.shelfForBook}
                   />
                 </div>
               </div>
@@ -82,8 +81,6 @@ class BooksApp extends React.Component {
     let read = {};
 
     BooksAPI.getAll().then(books => {
-      this.setState({ shelvedBooks: books });
-
       books.forEach(book => {
         switch (book.shelf) {
           case "currentlyReading":
@@ -108,6 +105,21 @@ class BooksApp extends React.Component {
         }
       });
     });
+  };
+
+  shelfForBook = book => {
+    const { shelves } = this.state;
+    if (book.shelf) {
+      return book.shelf;
+    } else if (shelves.currentlyReading[book.id]) {
+      return "currentlyReading";
+    } else if (shelves.wantToRead[book.id]) {
+      return "wantToRead";
+    } else if (shelves.read[book.id]) {
+      return "read";
+    } else {
+      return "none";
+    }
   };
 
   updateBookShelf = (book, oldShelf, newShelf) => {
